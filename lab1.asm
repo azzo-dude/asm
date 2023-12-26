@@ -1,60 +1,34 @@
-section .text
+%macro print 2
+      mov rax, 1
+      mov rdi, 1
+      mov rsi, %1
+      mov rdx, %2
+      syscall
+%endmacro
+%macro input 2
+      mov rax, 0
+      mov rdx, 0
+      mov rsi, %1
+      mov rdx, %2
+      syscall
+.text
   global _start
 
 _start:
-      call _USERi
-      
-      mov rax, 1
-      mov rdi, 1
-      mov rsi, msg0
-      mov rdx, len0
-      syscall
-      
-      call _USERo
-      
-      mov rax, 1
-      mov rdi, 1
-      mov rsi, msg1
-      mov rdx, len1
-      syscall
-
-      mov rax, 1
-      mov rdi, 1
-      mov rsi, msg2
-      mov rdx, len2
-      syscall
-      
-      call _USERo
-      
-      mov rax, 1
-      mov rdi, 1
-      mov rsi, msg3
-      mov rdx, len3
-      syscall
+      input NAME, 8
+      print msg0, len0
+      print msg1, len1
+      print msg2, len2
+      print NAME, 8
+      print msg3, len3
       
       mov rax, 60
       mov rdi, 0
       syscall
-_USERi:
-      mov rax, 0
-      mov rdi, 0
-      mov rsi, NAME
-      mov rdx, 8
-      syscall
-      ret
-      
-_USERo:
-      mov rax, 1
-      mov rdi, 1
-      mov rsi, NAME
-      mov rdx, 8
-      syscall
-      ret
-      
-section .bss
+.bss
       NAME RESB 8
       
-section .data
+.data
       
       msg0: db "Hello ", 0
       len0: equ $-msg0
